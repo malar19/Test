@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function delete_record() {
+            var iframe = document.getElementById('disp');
+            var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+            var x = innerDoc.getElementsByName("del");
+            for(var i=0;i<x.length;i++)
+               if(x[i].checked)
+                   document.getElementById("del_id").value=(x[i].value);
+
+                }
+    </script>
+
+</head>
+<body bgcolor="#d3d3d3">
+<br>
+<h2><center>TEST CASE DATABASE</center></h2><br>
+<hr>
+<br><br><br><br>
+<center>
+<input type="search" value="searchby"><a href="search.html"><input type="button" value="Search"></a>
+<br><br><br><br>
+<iframe frameborder="0" scrolling="yes" width="1000" height="200"
+                src="display.html" name="display" id="disp">
+    </iframe></center>
+
+<br>
+<center>
+    <form action="DeleteServlet" onsubmit="delete_record()">
+        <a href="insert.html"><input type="button" value="Insert"></a>&nbsp;&nbsp;
+        <input type="hidden" id="del_id" name="del_val">
+        <input type="submit" value="Delete" >
+    </form>
+   </center><br><br><br><br>
+
+</body>
+</html>
