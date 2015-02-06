@@ -30,14 +30,14 @@ public class InsertServlet extends HttpServlet {
         }
     }
 
-    public boolean insert(int id, String des, String tags, String exp, String actual, Boolean result, String date) throws SQLException
+    public Boolean insert(int id, String des, String tags, String exp, String actual, Boolean result, String date) throws SQLException
     {
         try {
             Statement s = con.createStatement();
             int r = s.executeUpdate("insert into test values(" + id + ",'" + des + "','" + tags + "','" + exp + "','" + actual + "'," + result + ",'" + date + "');");
             if (r == 1)
             {
-                s.executeUpdate("delete from test where test_id="+id+";");
+             //   s.executeUpdate("delete from test where test_id="+id+";");
                 return true;
             }
             else
@@ -55,10 +55,7 @@ public class InsertServlet extends HttpServlet {
         connection("root","malar123");
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        out.println("<html>");
-        out.println("<head>");
-        out.println("</head>");
-        out.println("<body bgcolor=\"#d3d3d3\">");
+
         int id;
         String des,tags,exp,actual,t_date;
         Boolean result;
@@ -72,29 +69,39 @@ public class InsertServlet extends HttpServlet {
         else
             result=false;
         t_date=request.getParameter("date");
+        Boolean flag = null;
         try {
-            insert(id,des,tags,exp,actual,result,t_date);
-            out.println("<br><br><center><h2>Record inserted successfully! :D</h2></center> ");
-            out.println("<form action=\"insert.html\">");
-            out.println("<br><br><center><b>Do you want to insert more records?</b></center><input type=\"submit\" value=\"YES\">");
-            out.println("<br><br></form>");
-            out.println("<center><a href=\"display.html\"><input type=\"button\" value=\"Display\"></a></center>");
-            out.println("<br><br><a href=\"welcome.html\"><input type=\"button\" value=\"Go back to main page\"></a>");
-            out.println("</body>");
-            out.println("</html>");
+            flag=insert(id, des, tags, exp, actual, result, t_date);
+            if(flag.equals(true)) {
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<script>");
+                out.println("function success()");
+                out.println("{ alert(\"Record inserted successfully! \"); window.location.assign(\"http://localhost:9102/display_main.html\");}");
+                out.println("</script>");
+                out.println("</head>");
+                out.println("<body onload=\"success()\">");
+                out.println("</body>");
+                out.println("</html>");
+
+            }
+            else
+            {
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<script>");
+                out.println("function failure()");
+                out.println("{ alert(\"Record insertion failed! \"); window.location.assign(\"http://localhost:9102/display_main.html\");}");
+                out.println("</script>");
+                out.println("</head>");
+                out.println("<body onload=\"failure()\">");
+                out.println("</body>");
+                out.println("</html>");
+            }
         }
         catch(Exception e)
         {
-            e.printStackTrace();
-            out.println("<html>");
-            out.println("<head>");
-            out.println("</head>");
-            out.println("<body bgcolor=\"#d3d3d3\">");
-            out.println("<br><br><center><h2>Record insertion failed :( </h2></center> ");
-            out.println("<br><br><center><b>Try again?</b><input type=\"submit\" value=\"YES\"></center>");
-            out.println("<br><br></form>");
-            out.println("<center><a href=\"display.html\"><input type=\"button\" value=\"Display\"></a></center>");
-            out.println("<br><br><a href=\"welcome.html\"><input type=\"button\" value=\"Go back to main page\"></a>");
+
         }
     }
 }

@@ -28,6 +28,14 @@
         <url-pattern>/SearchServlet</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>Servlet3</servlet-name>
+        <servlet-class>example.servlet.DeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Servlet3</servlet-name>
+        <url-pattern>/DeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>Servlet1</servlet-name>
         <jsp-file>/delete.jsp</jsp-file>
     </servlet>
@@ -36,7 +44,7 @@
         <url-pattern>/delete.jsp</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>welcome.html</welcome-file>
+        <welcome-file>display_main.html</welcome-file>
     </welcome-file-list>
 
 </web-app>

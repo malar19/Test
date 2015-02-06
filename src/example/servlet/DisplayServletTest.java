@@ -24,6 +24,5 @@ public class DisplayServletTest {
 
     @Test
     public void testDoGet() throws Exception {
-
     }
 }
