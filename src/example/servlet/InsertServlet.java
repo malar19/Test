@@ -77,7 +77,7 @@ public class InsertServlet extends HttpServlet {
                 out.println("<head>");
                 out.println("<script>");
                 out.println("function success()");
-                out.println("{ alert(\"Record inserted successfully! \"); window.location.assign(\"http://localhost:9102/display_main.html\");}");
+                out.println("{ alert(\"Record inserted successfully! \"); window.location.assign(\"http://localhost:\""+request.getLocalPort()+"\"/display_main.html\");}");
                 out.println("</script>");
                 out.println("</head>");
                 out.println("<body onload=\"success()\">");
@@ -91,7 +91,7 @@ public class InsertServlet extends HttpServlet {
                 out.println("<head>");
                 out.println("<script>");
                 out.println("function failure()");
-                out.println("{ alert(\"Record insertion failed! \"); window.location.assign(\"http://localhost:9102/display_main.html\");}");
+                out.println("{ alert(\"Record insertion failed! \"); window.location.assign(\"http://localhost:"+request.getLocalPort()+"/display_main.html\");}");
                 out.println("</script>");
                 out.println("</head>");
                 out.println("<body onload=\"failure()\">");

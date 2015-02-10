@@ -50,41 +50,54 @@ public class DisplayServlet extends HttpServlet {
         out.println("background-color: #f1f1f1;}");
         out.println("table tr:nth-child(even) {");
         out.println("background-color: #ffffff;}");
+        out.println("div.scroll  { overflow-y:scroll; height:300;} ");
         out.println("</style>");
         out.println("<script src= \"http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js\"></script>\n");
+      //  out.println("<script>function init() {  alert(parent.document.getElementById(\"searchby\").value }</script>");
+       // out.println("function getText(val) {document.getElementById(\"val\")=val;}");
         out.println("</head>");
         out.println("<body bgcolor=\"#d3d3d3\">");
-        //out.println("<br><h2><center>TEST CASE DATABASE</center></h2><br><hr><br><br><br><br>");
-        out.println("<table border=\"1px\" align=\"center\" cellpadding=\"10px\">");
-        out.println("<tr>");
-        out.println("<td></td>");
-        out.println("<td><b>TEST ID</b></td>");
-        out.println("<td><b>DESCRIPTION</b></td>");
-        out.println("<td><b>TAGS</b></td>");
-        out.println("<td><b>EXPECTED OUTPUT</b></td>");
-        out.println("<td><b>ACTUAL OUTPUT</b></td>");
-        out.println("<td><b>RESULT</b></td>");
-        out.println("<td><b>DATE</b></td>");
-        out.println("</tr>");
-        out.println("<p><input type=\"text\" ng-model=\"test\"></p>");
+        //out.println("<br><h2><center>TEST CASE DATABASE</center></h2><br><hr><br><br><br><br>");*/
         try {
 
             Statement s = con.createStatement();
-            ResultSet r = s.executeQuery("select * from test;");
-            while (r.next()) {
-                out.println("<tr>");
-                out.println("<td><input type=\"radio\" id=\"val\" name=\"del\" value='"+r.getInt(1)+"'></td>");
-                out.println("<td>" + r.getInt(1) + "| filter:test </td>");
-                out.println("<td>" + r.getString(2) + "| filter:test </td>");
-                out.println("<td>" + r.getString(3) + "| filter:test </td>");
-                out.println("<td>" + r.getString(4) + "| filter:test </td>");
-                out.println("<td>" + r.getString(5) + "| filter:test </td>");
-                out.println("<td>" + r.getBoolean(6) + "| filter:test </td>");
-                out.println("<td>" + r.getDate(7) + " " + r.getTime(7) + "</td>");
-                out.println("</tr>");
+            ResultSet rs = s.executeQuery("select * from test;");
+            String table_data = "table_data = [";
+            while(rs.next())
+            {
+                table_data+="{id: '"+rs.getInt(1)+"' ,description: '"+
+                        rs.getString(2)+"' ,tag: '"+rs.getString(3)+"' ,expected: '"+rs.getString(4)+
+                        "' ,actual: '"+rs.getString(5)+"' ,result: '"+rs.getBoolean(6)+"' ,date: '"+rs.getDate(7)+"', time: '"+rs.getTime(7)+"'},";
+
             }
+            String new_table = table_data.substring(0,table_data.length()-1)+']';
+            out.println("<div ng-app=\"\" ng-init=\""+new_table+"\">");
+            out.println("<center><input type=\"text\" ng-model=\"text\" id=\"search\"><input type=\"button\" value=\"Search\"></center><br><br>");
+            out.println("<div class='scroll'>");
+            out.println("<table border=\"1px\" align=\"center\" cellpadding=\"10px\">");
+            out.println("<tr>");
+            out.println("<td></td>");
+            out.println("<td><b>TEST ID</b></td>");
+            out.println("<td><b>DESCRIPTION</b></td>");
+            out.println("<td><b>TAGS</b></td>");
+            out.println("<td><b>EXPECTED OUTPUT</b></td>");
+            out.println("<td><b>ACTUAL OUTPUT</b></td>");
+            out.println("<td><b>RESULT</b></td>");
+            out.println("<td><b>DATE</b></td>");
+            out.println("</tr>");
+            out.println("<tr ng-repeat=\"record in table_data | filter:text \">");
+            out.println("<td><input type=\"radio\" name=\"del\" value=\"{{record.id}}\"></td>");
+            out.println("<td>{{record.id}}</td>");
+            out.println("<td>{{record.description}}</td>");
+            out.println("<td>{{record.tag}}</td>");
+            out.println("<td>{{record.expected}}</td>");
+            out.println("<td>{{record.actual}}</td>");
+            out.println("<td>{{record.result}}</td>");
+            out.println("<td>{{record.date}} {{record.time}}</td>");
+            out.println("</tr>");
+
             out.println("</table>");
-            out.println("</form>");
+            out.println("</div></div>");
             //out.println("<input type=\"button\" id=\"check\" value=\"check\" onclick=\"check()\">");
             out.println("</body>");
             out.println("</html>");

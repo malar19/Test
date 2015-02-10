@@ -8,8 +8,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         InsertServletTest.class,
-        DisplayServletTest.class,
-        SearchServletTest.class
+        DisplayServletTest.class
 })
 public class TestSuite {
 }
